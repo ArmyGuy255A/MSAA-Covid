@@ -13,13 +13,16 @@ namespace MSSA_Covid.Data.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        [Required]
         public string City { get; set; }
         [Required]
         public string State { get; set; }
         [Required]
         public string County { get; set; }        
         public string ImageName { get; set; }
+        [Display(Name = "QR Code")]
         public string ImageBlobUrl { get; set; }
+        [Display(Name = "COVID URL")]
         public Uri Url { get; set; }
         [NotMapped]
         public string Name { get

@@ -27,7 +27,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Url)
             </th>
-            <th></th>
+            <th>
+                <a>Actions</a>
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -43,7 +45,9 @@
                 @Html.DisplayFor(modelItem => item.County)
             </td>
             <td>
-                <img src="@item.ImageBlobUrl" class="img-thumbnail"/>
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                    <img src="@item.ImageBlobUrl" class="img-fluid"/>
+                </div>                
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Url)

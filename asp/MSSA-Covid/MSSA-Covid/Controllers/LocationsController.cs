@@ -54,22 +54,6 @@ namespace MSSA_Covid.Controllers
             return View();
         }
 
-        //private async Task<byte[]> ConvertFile(IFormFile file)
-        //{
-        //    if (null != file)
-        //    {
-        //        var filePath = Path.GetTempFileName();
-
-        //        using (var stream = System.IO.File.Create(filePath))
-        //        {
-        //            await file.CopyToAsync(stream);
-        //        }
-        //    } else
-        //    {
-        //        return null;
-        //    }
-        //}
-
         // POST: Locations/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -79,7 +63,8 @@ namespace MSSA_Covid.Controllers
         {
             if (ModelState.IsValid)
             {
-                location.ImageBlobUrl = await _blobStorageService.UploadFileToBlobAsync(QRCodeImage, String.Format("{0}/{1}", location.State, location.County));
+                await UploadQRCode(location, QRCodeImage);
+
                 _context.Add(location);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -108,7 +93,7 @@ namespace MSSA_Covid.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,City,State,County,QRCodeImage,Url")] Location location, IFormFile file)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,City,State,County,QRCodeImage,Url")] Location location, IFormFile QRCodeImage)
         {
             if (id != location.Id)
             {
@@ -119,6 +104,11 @@ namespace MSSA_Covid.Controllers
             {
                 try
                 {
+                    await UploadQRCode(location, QRCodeImage);
+                    
+                    _context.Add(location);
+
+
                     _context.Update(location);
                     await _context.SaveChangesAsync();
                 }
@@ -165,6 +155,20 @@ namespace MSSA_Covid.Controllers
             _context.Locations.Remove(location);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        private async Task<bool> UploadQRCode (Location location, IFormFile file)
+        {
+            if (null != file)
+            {
+                location.ImageBlobUrl = await _blobStorageService.UploadFileToBlobAsync(file, String.Format("{0}/{1}", location.State, location.County));
+                location.ImageName = file.FileName;
+                if (location.ImageBlobUrl.Length != 0)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private bool LocationExists(int id)
