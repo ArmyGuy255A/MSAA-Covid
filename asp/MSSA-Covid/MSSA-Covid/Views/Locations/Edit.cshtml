@@ -28,11 +28,11 @@
                 <input asp-for="County" class="form-control" />
                 <span asp-validation-for="County" class="text-danger"></span>
             </div>
-        <div class="form-group">
-            <input asp-for="QRCodeImage" class="form-control custom-file-input" type="file" />
-            <label class="custom-file-label">Choose File...</label>
-            <span asp-validation-for="QRCodeImage" class="text-danger"></span>
-        </div>
+            <div class="form-group custom-file">
+                <input asp-for="QRCodeImage" class="form-control custom-file-input" type="file" />
+                <label class="custom-file-label">Choose File...</label>
+                <span asp-validation-for="QRCodeImage" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="Url" class="control-label"></label>
                 <input asp-for="Url" class="form-control" />
