@@ -18,6 +18,62 @@ namespace MSSA_Covid.Migrations
                 .HasAnnotation("ProductVersion", "5.0.3")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("MSSA_Covid.Data.Models.KioskConfiguration", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("KioskConfigurations");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = -1,
+                            Description = "Kiosk Description",
+                            Name = "Default"
+                        });
+                });
+
+            modelBuilder.Entity("MSSA_Covid.Data.Models.KioskFile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("BlobUri")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("KioskConfigurationId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("KioskConfigurationId");
+
+                    b.ToTable("KioskFiles");
+                });
+
             modelBuilder.Entity("MSSA_Covid.Data.Models.Location", b =>
                 {
                     b.Property<int>("Id")
@@ -135,6 +191,22 @@ namespace MSSA_Covid.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("PageStatistics");
+                });
+
+            modelBuilder.Entity("MSSA_Covid.Data.Models.KioskFile", b =>
+                {
+                    b.HasOne("MSSA_Covid.Data.Models.KioskConfiguration", "KioskConfiguration")
+                        .WithMany("KioskFiles")
+                        .HasForeignKey("KioskConfigurationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("KioskConfiguration");
+                });
+
+            modelBuilder.Entity("MSSA_Covid.Data.Models.KioskConfiguration", b =>
+                {
+                    b.Navigation("KioskFiles");
                 });
 #pragma warning restore 612, 618
         }

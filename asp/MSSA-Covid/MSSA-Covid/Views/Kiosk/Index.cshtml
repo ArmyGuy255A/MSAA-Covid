@@ -1,10 +1,31 @@
-﻿@{
+﻿@model MSSA_Covid.Data.Models.KioskConfiguration;
+@using MSSA_Covid.Data.Models;
+@{
     Layout = "_KioskLayout";
 }
 
-<div class="text-center">
-    <h1 class="display-4"><h1 class="display-4">@ViewData["Title"]</h1></h1>
-    <p>More content coming soon!</p>
-    <p>CI/CD Pipelines built using Azure!</p>
-    
+<div class="text-center">    
+    <h1 class="display-4">@Model.Name</h1>
+    <p>@Model.Description</p>
+
+    @if (null != Model.KioskFiles)
+    {
+        <div class="container-fluid">
+            <div class="row align-items-stretch">
+                @foreach (KioskFile file in Model.KioskFiles)
+                {
+                    <div class="col-xl-4 col-lg-4 col-sm-6 mb-4">
+                        <div class="card text-white bg-info h-100">
+                            <img class="card-img-top" src="@file.BlobUri" alt="QR Code">
+                            <div class="card-body">
+                                <p class="card-text font-weight-bold">@file.Title</p>
+                                <p class="card-text">@file.Description</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    }
 </div>

@@ -34,9 +34,7 @@
 
   <ItemGroup>
     <Folder Include="API\" />
-    <Folder Include="Data\Interfaces\" />
     <Folder Include="Documentation\" />
-    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

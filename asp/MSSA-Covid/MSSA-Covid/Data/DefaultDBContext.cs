@@ -15,6 +15,8 @@ namespace MSSA_Covid.Data
 
         public DbSet<Location> Locations { get; set; }
         public DbSet<PageStatistic> PageStatistics { get; set; }
+        public DbSet<KioskConfiguration> KioskConfigurations { get; set; }
+        public DbSet<KioskFile> KioskFiles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -30,8 +32,11 @@ namespace MSSA_Covid.Data
                 new Location { Id = -7, City = "Augusta", State = "Georgia", County = "Richmond" },
                 new Location { Id = -8, City = "Fort Gordon", State = "Georgia", County = "Richmond" },
                 new Location { Id = -9, City = "Blythe", State = "Georgia", County = "Richmond" }
-               );
+                );
 
+            builder.Entity<KioskConfiguration>().HasData(
+                new KioskConfiguration { Id = -1, Name = "Default", Description = "Kiosk Description" }
+                );
         }
     }
 }
